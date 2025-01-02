@@ -58,6 +58,7 @@ app.get('/getUserData', async function (req,res){
 })
 
 // Endpoint to fetch user repositories
+// Endpoint to fetch user repositories
 app.get("/getUserRepos", async function (req, res) {
   const authorization = req.get("Authorization"); // Bearer AccessToken
   if (!authorization) {
@@ -72,8 +73,32 @@ app.get("/getUserRepos", async function (req, res) {
         Accept: "application/vnd.github.v3+json",
       },
     });
+
     const data = await response.json();
+
+    // console.log(data);
     if (response.ok) {
+      console.log("Detailed Repository Data:");
+      data.forEach((repo) => {
+        console.log({
+          id: repo.id,
+          name: repo.name,
+          full_name: repo.full_name,
+          private: repo.private,
+          owner: repo.owner.login,
+          html_url: repo.html_url,
+          description: repo.description,
+          branch: repo.branches_url,
+          created_at: repo.created_at,
+          updated_at: repo.updated_at,
+          pushed_at: repo.pushed_at,
+          language: repo.language,
+          forks_count: repo.forks_count,
+          stargazers_count: repo.stargazers_count,
+          watchers_count: repo.watchers_count,
+          size: repo.size,
+        });
+      });
       res.json(data);
     } else {
       res.status(response.status).json(data);
@@ -83,6 +108,7 @@ app.get("/getUserRepos", async function (req, res) {
     res.status(500).json({ message: "Error fetching repositories" });
   }
 });
+
 
 // Endpoint to clone the repository
 app.post("/cloneRepo", async (req, res) => {

@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { useEffect, useState } from "react";
 
@@ -90,6 +91,7 @@ function App() {
           <>
             <h1>We have the access token</h1>
             <button
+            className="btn btn-danger"
               onClick={() => {
                 localStorage.removeItem("accessToken");
                 setRerender(!rerender);
@@ -98,7 +100,7 @@ function App() {
               Log out
             </button>
             <h3>Get User Data from Github API</h3>
-            <button onClick={getUserData}>Get User Data</button>
+            <button className="btn btn-primary" onClick={getUserData}>Get User Data</button>
             {userData.profile ? (
               <>
                 <h4>Hello, {userData.profile.login}</h4>
@@ -108,15 +110,16 @@ function App() {
                   height="100px"
                   src={userData.profile.avatar_url}
                 />
-                <a href={userData.profile.html_url} style={{ color: "white" }}>
+                <a className="btn btn-primary" href={userData.profile.html_url} style={{ color: "white" }}>
                   Visit Profile
                 </a>
               </>
             ) : null}
-            <h3>Repositories:</h3>
-            <button onClick={getUserRepos}>Get Repositories</button>
+            <h3>Get All Repositories:</h3>
+            <button className="btn btn-success" onClick={getUserRepos}>Get Repositories</button>
             {repos.length > 0 ? (
-              <table>
+              <div>
+                <table className="table table-striped table-hover">
                 <thead>
                   <tr>
                     <th>Repo Name</th>
@@ -141,6 +144,7 @@ function App() {
                       <td>{repo.private ? "Private" : "Public"}</td>
                       <td>
                         <button
+                          className="btn btn-primary"
                           onClick={() =>
                             cloneRepository(repo.clone_url, repo.name)
                           }
@@ -148,10 +152,11 @@ function App() {
                           Clone Repository
                         </button>
                       </td>
-                    </tr>
+                    </tr> 
                   ))}
                 </tbody>
               </table>
+              </div>
             ) : (
               <p>No repositories found</p>
             )}
@@ -159,7 +164,7 @@ function App() {
         ) : (
           <>
             <h3>User is not logged in</h3>
-            <button onClick={loginWithGithub}>Login to Github</button>
+            <button className="btn btn-primary" onClick={loginWithGithub}>Login to Github</button>
           </>
         )}
       </header>
